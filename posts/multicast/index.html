@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Everything you need to know about mullticast">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="generator" content="Hugo 0.37-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://suess.wtf/css/style.css" type="text/css">
+<link rel="stylesheet" href="https://suess.wtf/css/syntax.css" type="text/css">
+<link rel="alternate" href="https://suess.wtf/index.xml" type="application/rss+xml" title="suess.wtf">
+<title>Multicast - suess.wtf</title>
+</head>
+<body>
+
+<header>
+  <div class="container clearfix">
+    <a class="path" href="https://suess.wtf">[suess.wtf]</a>
+    <span class="caret"># _</span>
+    <div class="right">
+      
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  
+<main role="main" class="article">
+  
+<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="meta">
+
+    <span class="key">in</span>
+    <span class="val">
+
+        <a href="https://suess.wtfcategories/matura">matura</a>
+
+        <a href="https://suess.wtfcategories/networks">networks</a>
+
+    </span>
+
+
+  </div>
+  <h1 class="headline" itemprop="headline">Multicast</h1>
+  <section class="body" itemprop="articleBody">
+    
+
+<h1 id="what-is-multicast">What is Multicast?</h1>
+
+<p>In an IPv4 network, there are <em>three</em> types of packets:</p>
+
+<ul>
+<li><strong>Unicast</strong> One-to-One host communication.</li>
+<li><strong>Broadcast</strong> A broadcast message is sent from one hoste to <em>all</em> hosts in the
+current subnet. Routers will, by definition, not forward broadcast messages</li>
+<li><strong>Multicast</strong> Here is where things get interesting. Multicast traffic is sent
+from one host to a specific group of receivers. (Cheap) Switches will forward
+multicast on all ports. Routers will not forward multicast packets by default.</li>
+</ul>
+
+<p>In order to keep everything simple, the IPv6 specification excludes any type of
+broadcast in favor of an <code>all ipv6 devices</code> well known multicast group.</p>
+
+<p>The main usecase for multicast is the distribution of the same data to many
+clients. This applies to: Streaming services, VoIP or LAN Chat apps.</p>
+
+<p>In order to receive multicast packets, a host must first <em>join</em> a <em>multicast
+group</em>. This can either be done statically or dynamically. Most of the time,
+traffic is sent from the server to a group of clients (Rare cases exist where
+the client sends back a multicast packet).</p>
+
+<p>While Multicast works out of the box in most networks, the challenge is shaping
+the traffic, so that _only hosts in the multicast group receive the data.</p>
+
+<h2 id="multicast-addressing">Multicast Addressing</h2>
+
+<h3 id="ipv4">IPv4</h3>
+
+<p>Multicast IPv4 addresses are a <em>Class D</em> network. There are serveral well known
+multicast ranges:</p>
+
+<ul>
+<li><code>224.0.0.0</code> - <code>224.0.0.255</code>: Reserved for routing and other network protocols
+such as OSPF, RIP, HSRP, etc</li>
+<li><code>224.0.1.0</code> - <code>238.255.255.255</code>: Reserved for &ldquo;public use. Can be used
+publicly on the Internet. Many addresses in this range have been reserved for
+specific applications</li>
+<li><code>239.0.0.0</code> - <code>239.255.255.255.</code>: Reserved for &ldquo;private&rdquo; use. Will not be
+routed on the internet</li>
+</ul>
+
+<p>The most important IPv4 Multicast addresses are</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>224.0.0.1</code></td>
+<td>All hosts on this subnet</td>
+</tr>
+
+<tr>
+<td><code>224.0.0.1</code></td>
+<td>All routers on this subnet</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="ipv6">IPv6</h3>
+
+<p>Multicast addresses in IPv6 use the prefix <code>ff00::/8</code>. They can either use the
+<a href="https://tools.ietf.org/html/rfc2373">old (RFC2373)</a> or the
+<a href="https://tools.ietf.org/html/rfc7371">new (RFC7371)</a> format.</p>
+
+<pre><code>Old Format:
+| 8 Bits | 4 Bits | 4 Bits | 112 Bits |
+| ------ | ------ | ------ | -------- |
+| prefix | flags  | scope  | group id |
+New Format:
+| 8 Bits | 4 Bits | 4 Bits | 4 Bits | 4 Bits   | 8 Bits | 64 Bits        | 32 Bits  |
+|--------|--------|--------|--------|----------|--------|----------------|----------|
+| prefix | ff1    | scope  | ff2    | reserved | plen 	| network prefix | group ID |
+</code></pre>
+
+<p>The most important IPv6 Multicast addresses are</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>ff02::1</code></td>
+<td>All link-local devices</td>
+</tr>
+
+<tr>
+<td><code>ff02::2</code></td>
+<td>All link-local routers</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="ethernet">Ethernet</h3>
+
+<p>To convert a Multicast IP Address to a MAC address, we use the <code>0100.5e</code> prefix.
+To complete the MAC, the last <em>23</em> bits of the MC address are used.</p>
+
+<pre><code>Decimal:   224  .    65  .  130   .   195
+Binary: 11100000.01000001.10000010.11000011
+
+Hex:    0100.5e
+Binary: 0000000100000000.01011110.0
+
+Combined: 0000000100000000.0101111001000001.1000001011000011
+Hex: 0100.5e41.82c3
+</code></pre>
+
+<p>Because only the last 23 bits are used, every Multicast MAC can match 32
+Multicast IP Addresses.</p>
+
+<h1 id="multicast-routing">Multicast Routing</h1>
+
+<p>Multicast routing has to be explicitly enabled</p>
+
+<pre><code>Switch(config)# ip multicast-routing
+</code></pre>
+
+<p>Multicast routing protocols make sure that only the correct clients receive the
+data.</p>
+
+<p>There are several multicast routing protocols available:</p>
+
+<ul>
+<li>Protocol Independend Multicast (<strong>PIM</strong>)</li>
+<li>Multicast OSPF (<strong>MOSPF</strong>)</li>
+<li>Distance Vector Multicast Routing Protocol (<strong>DVMRP</strong>)</li>
+<li>Core-Based Trees (<strong>CBT</strong>)</li>
+</ul>
+
+<p>Terminology:</p>
+
+<pre><code> |---|
+ |+++| Multicast Server
+ |---|
+   |
+   |  &lt;- Upstream
+   |
+   _
+  / \ 
+ |   | Router
+  \_/
+   |
+   |  &lt;- Downstream
+   |
+   |
+ |---|
+ |+++| Client
+ |---|
+
+</code></pre>
+
+<h2 id="reverse-path-forwarding">Reverse Path Forwarding</h2>
+
+<p>To guarantee a loop free multicast environment, switches perform an RPF check on
+incoming multicast traffic. Whenever a multicast packet arrives, the router
+looks up the source address in its unicast routing table. If the incoming
+interface matches the outgoing interface of the routing table, the traffic is
+forwarded.</p>
+
+<h2 id="forwarding-trees">Forwarding Trees</h2>
+
+<p>When the RPF Check succeds the router still has to know where to send the
+traffic to. This is where Multicast Forwarding Trees come into play.
+They controll the flow of multicast traffic inside the network and exist on a
+per-group basis.</p>
+
+<h3 id="source-trees">Source Trees</h3>
+
+<p>Source trees are the most basic forwarding trees. Their root is the multicast
+source and they branch to reach every client. Because they use the shortest
+path, they are also called <em>shortest path tree (SPT)</em>.</p>
+
+<h3 id="shared-trees">Shared Trees</h3>
+
+<p>Shared trees utilize a so called <em>Rendezvous Point (RP)</em>. Multicast traffic is
+always sent toward the RP using a source tree. The RP then builds a seperate
+source tree towards the receivers.
+At first glance, this just sounds like extra overhead so why even use Shared
+Trees?</p>
+
+<p>In a network with many sources and destination, every router has to build their
+own tree when using source trees. This is very processor heavy and might be too
+much for small access layer devices. With shared trees, only the route to the
+rendezvous point has to be stored. The RP is usually a strong device, capable of
+handling the entire multicas traffic of the network.</p>
+
+  </section>
+</article>
+</main>
+
+</div>
+
+<footer>
+  <div class="container">
+    <span class="copyright">&copy; 2018  suess.wtf - <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+  </div>
+</footer>
+</body>
+</html>

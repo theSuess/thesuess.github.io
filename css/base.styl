@@ -1,0 +1,80 @@
+@import "normalize.css"
+@import "colors"
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono|Open+Sans');
+
+mono-font = 'Fira Mono', monospace
+
+html
+  height: 100%
+  box-sizing: border-box
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body
+  background-color: base00
+  font-family: 'Open Sans', sans-serif
+  color: base07
+  position: relative
+  min-height: 100%
+  padding-bottom: 6rem;
+
+header
+  border-bottom 5px solid #252227
+  padding: 1rem
+  margin-bottom: 10px
+
+.path
+  font-family: mono-font
+
+.caret
+  font-family: mono-font
+
+.mono
+  font-family: mono-font
+
+pre,code
+  font-family: mono-font
+  color: base0B
+  overflow: auto
+
+pre
+  padding: 1rem
+  border-radius: 1rem
+  code
+    color: inherit
+    background-color: none
+
+.right
+  float: right
+
+.left
+  float: left
+
+.container
+  margin-left: 5%
+  @media screen and (min-width: 600px)
+    margin-left: 10%
+    margin-right: 10%
+  @media screen and (min-width: 800px)
+    margin-left: 20%
+    margin-right: 20%
+
+a
+  text-decoration: none
+  color: base08
+
+footer
+  border-top 5px solid #252227
+  position: absolute
+  padding: 1rem
+  bottom: 0
+  left: 0
+  right: 0
+
+.headline
+  margin-bottom: 0
+.meta
+  margin-bottom: 0.5rem

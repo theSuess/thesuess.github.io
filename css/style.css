@@ -1,0 +1,134 @@
+@import "normalize.css";
+.base00 {
+  color: #2e2a31;
+}
+.base01 {
+  color: #4a464d;
+}
+.base02 {
+  color: #666369;
+}
+.base03 {
+  color: #838085;
+}
+.base04 {
+  color: #9f9da2;
+}
+.base05 {
+  color: #bcbabe;
+}
+.base06 {
+  color: #d8d7da;
+}
+.base07 {
+  color: #f5f4f7;
+}
+.base08 {
+  color: #d8137f;
+}
+.base09 {
+  color: #d65407;
+}
+.base0A {
+  color: #dc8a0e;
+}
+.base0B {
+  color: #17ad98;
+}
+.base0C {
+  color: #149bda;
+}
+.base0D {
+  color: #796af5;
+}
+.base0E {
+  color: #bb60ea;
+}
+.base0F {
+  color: #c720ca;
+}
+@import url("https://fonts.googleapis.com/css?family=Fira+Mono|Open+Sans");
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  background-color: #2e2a31;
+  font-family: 'Open Sans', sans-serif;
+  color: #f5f4f7;
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 6rem;
+}
+header {
+  border-bottom: 5px solid #252227;
+  padding: 1rem;
+  margin-bottom: 10px;
+}
+.path {
+  font-family: 'Fira Mono', monospace;
+}
+.caret {
+  font-family: 'Fira Mono', monospace;
+}
+.mono {
+  font-family: 'Fira Mono', monospace;
+}
+pre,
+code {
+  font-family: 'Fira Mono', monospace;
+  color: #17ad98;
+  overflow: auto;
+}
+pre {
+  padding: 1rem;
+  border-radius: 1rem;
+}
+pre code {
+  color: inherit;
+  background-color: none;
+}
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
+.container {
+  margin-left: 5%;
+}
+@media screen and (min-width: 600px) {
+  .container {
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
+@media screen and (min-width: 800px) {
+  .container {
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+}
+a {
+  text-decoration: none;
+  color: #d8137f;
+}
+footer {
+  border-top: 5px solid #252227;
+  position: absolute;
+  padding: 1rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.headline {
+  margin-bottom: 0;
+}
+.meta {
+  margin-bottom: 0.5rem;
+}
