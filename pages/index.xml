@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>suess.wtf</title>
-    <link>https://suess.wtf/</link>
-    <description>Recent content on suess.wtf</description>
+    <title>Pages on suess.wtf</title>
+    <link>https://suess.wtf/pages/</link>
+    <description>Recent content in Pages on suess.wtf</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 24 Feb 2018 18:06:02 +0100</lastBuildDate>
     
-	<atom:link href="https://suess.wtf/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://suess.wtf/pages/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -22,16 +22,6 @@ Things I like to do:
  Writing nice code Designing innovative systems Mess with systems Automating things Break things  Skills:
  Go, Haskell, C# &amp;amp; Elixir Network-{Management, Monitoring, Design, Exploitation} near native fluency in English as well as a minimum ammount of Russian certified junior project manager thinking outside of the box  To contact me:
 s := []byte(&#34;</description>
-    </item>
-    
-    <item>
-      <title>Multicast</title>
-      <link>https://suess.wtf/posts/multicast/</link>
-      <pubDate>Wed, 21 Feb 2018 20:23:25 +0100</pubDate>
-      
-      <guid>https://suess.wtf/posts/multicast/</guid>
-      <description>What is Multicast? In an IPv4 network, there are three types of packets:
- Unicast One-to-One host communication. Broadcast A broadcast message is sent from one hoste to all hosts in the current subnet. Routers will, by definition, not forward broadcast messages Multicast Here is where things get interesting. Multicast traffic is sent from one host to a specific group of receivers. (Cheap) Switches will forward multicast on all ports.</description>
     </item>
     
   </channel>
