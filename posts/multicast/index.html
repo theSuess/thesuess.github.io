@@ -249,6 +249,78 @@ much for small access layer devices. With shared trees, only the route to the
 rendezvous point has to be stored. The RP is usually a strong device, capable of
 handling the entire multicas traffic of the network.</p>
 
+<h2 id="pim">PIM</h2>
+
+<p><em>Protocol indepenedt Multicast</em> is a so called Multicast routing protocol.
+Although the name suggests tht is indepenedt of any other protocol, PIM strongly
+depends on the unicast routing table.
+PIM is also responsible for creating the multicast tree, and &ldquo;pruning&rdquo; the tree
+so that no traffic is sent unnecessarily down a link.</p>
+
+<p>PIM can operate in multiple modes:</p>
+
+<ul>
+<li>Dense Mode (<code>PIM-DM</code>)</li>
+<li>Sparse Mode (<code>PIM-SM</code>)</li>
+<li>Sparse-Dense Mode (Cisco proprietary, <code>PIM-SM-DM</code>)</li>
+</ul>
+
+<h3 id="dense-mode">Dense Mode</h3>
+
+<p>Dense mode relies on flooding the network with multicast traffic.
+All downstream routers recieve the multicast packet until it times out. To
+minimize traffic, routers send a pruning message upstream when:</p>
+
+<ul>
+<li>The RPF Check fails</li>
+<li>A leaf router (has clients directly attached to it) has no receivers</li>
+<li>A non leaf router recieves a prune message from all its neighbours</li>
+</ul>
+
+<p>Dense mode is most usefull when:</p>
+
+<ul>
+<li>Senders and receivers are in close proximity to another</li>
+<li>Few senders - many receivers</li>
+<li>Much multicast traffic</li>
+<li>Constant stream of traffic</li>
+</ul>
+
+<p>Dense mode is <em>not</em> the method of choice for enterprise and service providers
+because of its scalability and flooding properties.</p>
+
+<h3 id="sparse-mode">Sparse Mode</h3>
+
+<p>Spares mode is based on the assumptions that the multicast group members are
+sparsely distributed throughout the network and that bandwith is limited</p>
+
+<p>Sparse mode multicast traffic is first directed to a RP. After traffic starts
+flowing, the routers in the path optimize it to remove unnecessary hops.</p>
+
+<h4 id="rp-distribution">RP Distribution</h4>
+
+<p>Following methods are available to automate the distribution of the RP:</p>
+
+<ul>
+<li>Auto-RP</li>
+<li>Bootstrap router (BSR)</li>
+</ul>
+
+<h5 id="auto-rp">Auto-RP</h5>
+
+<p>Auto-RP utilizes a seperate Router called the RP Mapping agent. All candidate
+RPs announce their availability every minute to 224.0.1.39 (Cisco-RP-announce).
+The mapping agent then sends out the Group-to-RP mappings to 224.0.1.40
+(Cisco-RP-discovery) and will continue to do so every 60 seconds.</p>
+
+<h5 id="bsr">BSR</h5>
+
+<p>BSR is only available in PIMv2. The BSR sends out special BSR Packets with a TTL
+of 1. This packet is flooded by all receivers. If there are multiple BSR
+candidates available, the BSR with the higher priority wins. Downstream routers
+advertise their group ranges to the BSR which then continuously floods the new
+information through the domain</p>
+
   </section>
 </article>
 </main>
