@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="generator" content="Hugo 0.37-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://suess.wtf/css/style.css" type="text/css">
+<link rel="stylesheet" href="https://suess.wtf/css/syntax.css" type="text/css">
+<link rel="alternate" href="https://suess.wtf/index.xml" type="application/rss+xml" title="suess.wtf">
+<title>Reviving an old NetApp FAS2040 - suess.wtf</title>
+</head>
+<body>
+
+<header>
+  <div class="container clearfix">
+    <a class="path" href="https://suess.wtf/">[suess.wtf]</a>
+    <span class="caret"># _</span>
+    <div class="right">
+      
+        
+        <a class="path" href="/pages/about/">About</a>
+      
+        |
+        <a class="path" href="/pages/pixels/">Pixels</a>
+      
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  
+<main role="main" class="article">
+  
+<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="meta">
+
+    <span class="key">in</span>
+    <span class="val">
+
+        <a href="https://suess.wtf/categories/networks">networks</a>
+
+    </span>
+
+
+  </div>
+  <h1 class="headline" itemprop="headline">Reviving an old NetApp FAS2040</h1>
+  <section class="body" itemprop="articleBody">
+    
+
+<p>So this week I revived an old netapp FAS2040 system. It was a big mess.</p>
+
+<p>This was the architecture I was working with</p>
+
+<p><img src="arch.png" alt="arch.png" /></p>
+
+<p>The two core switches are cisco devices and <code>na1 &amp; na2</code> are two FAS2040s.</p>
+
+<h2 id="getting-the-licenses">Getting the licenses</h2>
+
+<p>Since the FAS2040 is now officially EOL, we must resort to less &ldquo;official&rdquo; ways
+to get ourselves the <code>cf</code> license. This license is needed in order to enable
+takeover.</p>
+
+<blockquote>
+<p>Disclaimer: Always check with your netapp affiliate for all your
+license/rip-off needs</p>
+</blockquote>
+
+<p>Luckily the licenses on these old devices only consist of 7 letters, case
+insensitive. This gives us <code>26^7 = 8031810176</code> possibilities. At first this may
+sound like a lot but we only need to find one valid cf license.</p>
+
+<p>Using the <a href="https://sourceforge.net/projects/crunch-wordlist/">crunch</a> tool and
+some shell magic, I was able to find a 428 node license in under five minutes.</p>
+
+<pre><code class="language-bash">./crunch 7 7 \
+  | awk '{print &quot;license add &quot; $0}' \
+  | ssh root@na \
+  | grep -vi &quot;invalid license code&quot; \ 
+  | tee out.txt
+</code></pre>
+
+<p>This command leaves us with a text file called <code>out.txt</code> containing every tried
+license code and its result, if it wasn&rsquo;t invalid.</p>
+
+<p>Let&rsquo;s see what we&rsquo;ve got:</p>
+
+<pre><code class="language-bash">grep -i &quot;a .* node license&quot; licenses.txt
+A snapmanagerexchange 293 node license has been installed.
+A syncmirror_local 293 node license has been installed.
+A cf 124 node license has been installed.
+A snapvalidator 423 node license has been installed.
+A snaplock 103 node license has been installed.
+A cf 6 node license has been installed.
+A snaplock_enterprise 480 node license has been installed.
+A snapmanagerexchange 208 node license has been installed.
+A snaplock_enterprise 53 node license has been installed.
+A env_exception 136 node license has been installed.
+A flex_clone 98 node license has been installed.
+A snapmanager_vi 163 node license has been installed.
+A sv_application_pri 435 node license has been installed.
+...
+</code></pre>
+
+<h2 id="setting-up-ha">Setting up HA</h2>
+
+<p>To start using the cf features, you need to reboot the two filers.</p>
+
+<blockquote>
+<p><em><strong>Be careful! Check your /etc/rc file first or you may loose your network configuration</strong></em></p>
+</blockquote>
+
+<p>With that out of the way, takeover now <em>simply works ™</em></p>
+
+<h3 id="understanding-the-na-takeover-model">Understanding the NA takeover model</h3>
+
+<p>NA takeover does not behave like failover on the ASA or any other system I know
+of. The two filers communicate over the enclosure backplane and operate
+independently of one another. In the case of failure, the second controller
+takes over the functionality of the failing one. This means you don&rsquo;t have a
+floating IP between these two devices. Instead, the partner attaches the IP
+Address of the failed node to its own interfaces.</p>
+
+<p>For a concrete example, this is the <code>/etc/rc</code> file of our first (primary)
+controller:</p>
+
+<pre><code>hostname NA1
+ifgrp create lacp ifgrp_ab -b rr e0a e0b
+ifgrp create lacp ifgrp_cd -b rr e0c e0d
+ifgrp create single ifgrp_200_ha ifgrp_ab ifgrp_cd
+ifgrp favor ifgrp_ab
+ifconfig ifgrp_200_ha 192.168.1.200 netmask 255.255.255.0 partner ifgrp_200_ha
+route add default 192.168.1.200 1
+routed on
+options dns.enable off
+options nis.enable off
+savecore
+</code></pre>
+
+<p>and the second</p>
+
+<pre><code>hostname NA1
+ifgrp create lacp ifgrp_ab -b rr e0a e0b
+ifgrp create lacp ifgrp_cd -b rr e0c e0d
+ifgrp create single ifgrp_200_ha ifgrp_ab ifgrp_cd
+ifgrp favor ifgrp_ab
+ifconfig ifgrp_200_ha partner ifgrp_200_ha
+route add default 192.168.1.200 1
+routed on
+options dns.enable off
+options nis.enable off
+savecore
+</code></pre>
+
+<p>As in our case, the second controller is used for takeover only, it does not
+even need an ip on its own.</p>
+
+<p>Using <code>cf takeover</code> and <code>cf giveback</code> you can now swap between the two filers!</p>
+
+<h2 id="switch-configuration">Switch configuration</h2>
+
+<p>Here&rsquo;s the switch config we use:</p>
+
+<pre><code>interface GigabitEthernet5/25
+ description NA1-e0a
+ switchport access vlan 99
+ switchport mode access
+ storm-control broadcast level 25.00 20.00
+ channel-protocol lacp
+ channel-group 20 mode active
+!
+interface GigabitEthernet5/26
+ description NA1-e0b
+ switchport access vlan 99
+ switchport mode access
+ storm-control broadcast level 25.00 20.00
+ channel-protocol lacp
+ channel-group 20 mode active
+!
+interface GigabitEthernet5/27
+ description NA2-e0a
+ switchport access vlan 99
+ switchport mode access
+ storm-control broadcast level 25.00 20.00
+ channel-protocol lacp
+ channel-group 21 mode active
+!
+interface GigabitEthernet5/28
+ description NA2-e0b
+ switchport access vlan 99
+ switchport mode access
+ storm-control broadcast level 25.00 20.00
+ channel-protocol lacp
+ channel-group 21 mode active
+
+interface Port-channel20
+ description NA1-e0a-e0b
+ switchport
+ switchport access vlan 99
+ switchport mode access
+!
+interface Port-channel21
+ description NA2-e0a-e0b
+ switchport
+ switchport access vlan 99
+ switchport mode access
+</code></pre>
+
+  </section>
+</article>
+
+</main>
+
+</div>
+
+<footer>
+  <div class="container">
+    <span class="copyright">&copy; 2018  suess.wtf - <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+  </div>
+</footer>
+</body>
+</html>

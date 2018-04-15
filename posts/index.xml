@@ -6,10 +6,22 @@
     <description>Recent content in Posts on suess.wtf</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 21 Feb 2018 20:23:25 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 13 Apr 2018 17:39:38 +0200</lastBuildDate>
     
 	<atom:link href="https://suess.wtf/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Reviving an old NetApp FAS2040</title>
+      <link>https://suess.wtf/posts/reviving_na/</link>
+      <pubDate>Fri, 13 Apr 2018 17:39:38 +0200</pubDate>
+      
+      <guid>https://suess.wtf/posts/reviving_na/</guid>
+      <description>So this week I revived an old netapp FAS2040 system. It was a big mess.
+This was the architecture I was working with
+The two core switches are cisco devices and na1 &amp;amp; na2 are two FAS2040s.
+Getting the licenses Since the FAS2040 is now officially EOL, we must resort to less &amp;ldquo;official&amp;rdquo; ways to get ourselves the cf license. This license is needed in order to enable takeover.</description>
+    </item>
     
     <item>
       <title>Multicast</title>
