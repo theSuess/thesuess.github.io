@@ -1,94 +1,108 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-<meta charset="utf-8">
-<meta name="description" content="">
-<meta name="keywords" content="">
-<meta name="author" content="">
-<meta name="generator" content="Hugo 0.37-DEV" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://suess.wtf/css/style.css" type="text/css">
-<link rel="stylesheet" href="https://suess.wtf/css/syntax.css" type="text/css">
-<link rel="alternate" href="https://suess.wtf/index.xml" type="application/rss+xml" title="suess.wtf">
-<title>Reviving an old NetApp FAS2040 - suess.wtf</title>
-</head>
-<body>
 
-<header>
-  <div class="container clearfix">
-    <a class="path" href="https://suess.wtf/">[suess.wtf]</a>
-    <span class="caret"># _</span>
-    <div class="right">
-      
-        
-        <a class="path" href="/pages/about/">About</a>
-      
-        |
-        <a class="path" href="/pages/pixels/">Pixels</a>
-      
-    </div>
-  </div>
-</header>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div class="container">
-  
-<main role="main" class="article">
-  
-<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="meta">
+    <meta name="author" content="Dominik Süß">
+    <meta name="description" content="Dominik&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
 
-    <span class="key">in</span>
-    <span class="val">
+    <base href="https://suess.wtf/">
+    <title>
+  Reviving an old NetApp FAS2040 · suess.wtf
+</title>
 
-        <a href="https://suess.wtf/categories/networks">networks</a>
+    <link rel="canonical" href="https://suess.wtf/posts/reviving_na/">
 
-    </span>
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://suess.wtf/css/style.min.css">
 
-
-  </div>
-  <h1 class="headline" itemprop="headline">Reviving an old NetApp FAS2040</h1>
-  <section class="body" itemprop="articleBody">
     
 
-<p>So this week I revived an old netapp FAS2040 system. It was a big mess.</p>
+    
+      <link rel="stylesheet" href="https://suess.wtf/extra.css">
+    
 
-<p>This was the architecture I was working with</p>
+    <link rel="icon" type="image/png" href="https://suess.wtf/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://suess.wtf/images/favicon-16x16.png" sizes="16x16">
 
-<p><img src="arch.png" alt="arch.png" /></p>
+    
 
-<p>The two core switches are cisco devices and <code>na1 &amp; na2</code> are two FAS2040s.</p>
+    <meta name="generator" content="Hugo 0.37-DEV" />
+  </head>
 
-<h2 id="getting-the-licenses">Getting the licenses</h2>
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://suess.wtf/">
+      suess.wtf
+    </a>
+    <input type="checkbox" id="menu-control"/>
+    <label class="menu-mobile  float-right " for="menu-control">
+      <span class="btn-mobile  float-right ">&#9776;</span>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item   align-left  ">
+              <a class="navigation-link" href="https://suess.wtf/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item   align-left  ">
+              <a class="navigation-link" href="https://suess.wtf/pages/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    </label>
+  </section>
+</nav>
 
-<p>Since the FAS2040 is now officially EOL, we must resort to less &ldquo;official&rdquo; ways
-to get ourselves the <code>cf</code> license. This license is needed in order to enable
-takeover.</p>
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">Reviving an old NetApp FAS2040</h1>
+      <h2 class="date">April 13, 2018</h2>
+
+      
+    </header>
+
+    
+
+<p>So this week I revived an old netapp FAS2040 system. It was a big mess.
+This was the architecture I was working with</p>
+
+<p><img src="https://suess.wtf/posts/reviving_na/arch.png" alt="arch.png" /></p>
+
+<p>The two core switches are cisco devices and na1 &amp; na2 are two FAS2040s.</p>
+
+<h1 id="getting-the-licenses">Getting the licenses</h1>
+
+<p>Since the FAS2040 is now officially EOL, we must resort to less “official” ways to get ourselves the cf license. This license is needed in order to enable takeover.</p>
 
 <blockquote>
-<p>Disclaimer: Always check with your netapp affiliate for all your
-license/rip-off needs</p>
+<p>Disclaimer: Always check with your netapp affiliate for all your license/rip-off needs</p>
 </blockquote>
 
-<p>Luckily the licenses on these old devices only consist of 7 letters, case
-insensitive. This gives us <code>26^7 = 8031810176</code> possibilities. At first this may
-sound like a lot but we only need to find one valid cf license.</p>
+<p>Luckily the licenses on these old devices only consist of 7 letters, case insensitive. This gives us 26^7 = 8031810176 possibilities. At first this may sound like a lot but we only need to find one valid cf license.</p>
 
-<p>Using the <a href="https://sourceforge.net/projects/crunch-wordlist/">crunch</a> tool and
-some shell magic, I was able to find a 428 node license in under five minutes.</p>
+<p>Using the crunch tool and some shell magic, I was able to find a 428 node license in under five minutes.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-.bash" data-lang=".bash">./crunch <span style="color:#0000cf;font-weight:bold">7</span> <span style="color:#0000cf;font-weight:bold">7</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  <span style="color:#000;font-weight:bold">|</span> awk <span style="color:#4e9a06">&#39;{print &#34;license add &#34; $0}&#39;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  <span style="color:#000;font-weight:bold">|</span> ssh root@na <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  <span style="color:#000;font-weight:bold">|</span> grep -vi <span style="color:#4e9a06">&#34;invalid license code&#34;</span> <span style="color:#4e9a06">\ </span>
+  <span style="color:#000;font-weight:bold">|</span> tee out.txt</code></pre></div>
+<p>This command leaves us with a text file called out.txt containing every tried license code and its result, if it wasn’t invalid.</p>
 
-<pre><code class="language-bash">./crunch 7 7 \
-  | awk '{print &quot;license add &quot; $0}' \
-  | ssh root@na \
-  | grep -vi &quot;invalid license code&quot; \ 
-  | tee out.txt
-</code></pre>
-
-<p>This command leaves us with a text file called <code>out.txt</code> containing every tried
-license code and its result, if it wasn&rsquo;t invalid.</p>
-
-<p>Let&rsquo;s see what we&rsquo;ve got:</p>
-
-<pre><code class="language-bash">grep -i &quot;a .* node license&quot; licenses.txt
+<p>Let’s see what we’ve got:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">grep -i &#34;a .* node license&#34; licenses.txt
 A snapmanagerexchange 293 node license has been installed.
 A syncmirror_local 293 node license has been installed.
 A cf 124 node license has been installed.
@@ -102,32 +116,23 @@ A env_exception 136 node license has been installed.
 A flex_clone 98 node license has been installed.
 A snapmanager_vi 163 node license has been installed.
 A sv_application_pri 435 node license has been installed.
-...
-</code></pre>
-
-<h2 id="setting-up-ha">Setting up HA</h2>
+...</pre></div>
+<h1 id="setting-up-ha">Setting up HA</h1>
 
 <p>To start using the cf features, you need to reboot the two filers.</p>
 
 <blockquote>
-<p><em><strong>Be careful! Check your /etc/rc file first or you may loose your network configuration</strong></em></p>
+<p>Be careful! Check your /etc/rc file first or you may lose your network configuration</p>
 </blockquote>
 
-<p>With that out of the way, takeover now <em>simply works ™</em></p>
+<p>With that out of the way, takeover now simply works™</p>
 
-<h3 id="understanding-the-na-takeover-model">Understanding the NA takeover model</h3>
+<h1 id="understanding-the-na-takeover-model">Understanding the NA takeover model</h1>
 
-<p>NA takeover does not behave like failover on the ASA or any other system I know
-of. The two filers communicate over the enclosure backplane and operate
-independently of one another. In the case of failure, the second controller
-takes over the functionality of the failing one. This means you don&rsquo;t have a
-floating IP between these two devices. Instead, the partner attaches the IP
-Address of the failed node to its own interfaces.</p>
+<p>NA takeover does not behave like failover on the ASA or any other system I know of. The two filers communicate over the enclosure backplane and operate independently of one another. In the case of failure, the second controller takes over the functionality of the failing one. This means you don’t have a floating IP between these two devices. Instead, the partner attaches the IP Address of the failed node to its own interfaces.</p>
 
-<p>For a concrete example, this is the <code>/etc/rc</code> file of our first (primary)
-controller:</p>
-
-<pre><code>hostname NA1
+<p>For a concrete example, this is the /etc/rc file of our first (primary) controller:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">hostname NA1
 ifgrp create lacp ifgrp_ab -b rr e0a e0b
 ifgrp create lacp ifgrp_cd -b rr e0c e0d
 ifgrp create single ifgrp_200_ha ifgrp_ab ifgrp_cd
@@ -137,12 +142,9 @@ route add default 192.168.1.200 1
 routed on
 options dns.enable off
 options nis.enable off
-savecore
-</code></pre>
-
+savecore</pre></div>
 <p>and the second</p>
-
-<pre><code>hostname NA1
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">hostname NA1
 ifgrp create lacp ifgrp_ab -b rr e0a e0b
 ifgrp create lacp ifgrp_cd -b rr e0c e0d
 ifgrp create single ifgrp_200_ha ifgrp_ab ifgrp_cd
@@ -152,19 +154,15 @@ route add default 192.168.1.200 1
 routed on
 options dns.enable off
 options nis.enable off
-savecore
-</code></pre>
-
-<p>As in our case, the second controller is used for takeover only, it does not
-even need an ip on its own.</p>
+savecore</pre></div>
+<p>As in our case, the second controller is used for takeover only, it does not even need an ip on its own.</p>
 
 <p>Using <code>cf takeover</code> and <code>cf giveback</code> you can now swap between the two filers!</p>
 
-<h2 id="switch-configuration">Switch configuration</h2>
+<h1 id="switch-configuration">Switch configuration</h1>
 
-<p>Here&rsquo;s the switch config we use:</p>
-
-<pre><code>interface GigabitEthernet5/25
+<p>Here’s the switch config we use:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">interface GigabitEthernet5/25
  description NA1-e0a
  switchport access vlan 99
  switchport mode access
@@ -206,20 +204,28 @@ interface Port-channel21
  description NA2-e0a-e0b
  switchport
  switchport access vlan 99
- switchport mode access
-</code></pre>
+ switchport mode access</pre></div>
+  </article>
 
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+     © 2018    ·  Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>. 
   </section>
-</article>
-
-</main>
-
-</div>
-
-<footer>
-  <div class="container">
-    <span class="copyright">&copy; 2018  suess.wtf - <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
-  </div>
 </footer>
-</body>
+
+    </main>
+
+    
+
+  </body>
+
 </html>

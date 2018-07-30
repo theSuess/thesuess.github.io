@@ -1,134 +1,104 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-<meta charset="utf-8">
-<meta name="description" content="">
-<meta name="keywords" content="">
-<meta name="author" content="">
-<meta name="generator" content="Hugo 0.37-DEV" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://suess.wtf/css/style.css" type="text/css">
-<link rel="stylesheet" href="https://suess.wtf/css/syntax.css" type="text/css">
-<link rel="alternate" href="https://suess.wtf/index.xml" type="application/rss+xml" title="suess.wtf">
-<title>suess.wtf</title>
-</head>
-<body>
 
-<header>
-  <div class="container clearfix">
-    <a class="path" href="https://suess.wtf/">[suess.wtf]</a>
-    <span class="caret"># _</span>
-    <div class="right">
-      
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Dominik Süß">
+    <meta name="description" content="Dominik&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://suess.wtf/">
+    <title>suess.wtf</title>
+
+    <link rel="canonical" href="https://suess.wtf/">
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://suess.wtf/css/style.min.css">
+
+    
+
+    
+      <link rel="stylesheet" href="https://suess.wtf/extra.css">
+    
+
+    <link rel="icon" type="image/png" href="https://suess.wtf/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://suess.wtf/images/favicon-16x16.png" sizes="16x16">
+
+    
+      <link href="https://suess.wtf/index.xml" rel="alternate" type="application/rss+xml" title="suess.wtf" />
+      <link href="https://suess.wtf/index.xml" rel="feed" type="application/rss+xml" title="suess.wtf" />
+    
+
+    <meta name="generator" content="Hugo 0.37-DEV" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://suess.wtf/">
+      suess.wtf
+    </a>
+    <input type="checkbox" id="menu-control"/>
+    <label class="menu-mobile  float-right " for="menu-control">
+      <span class="btn-mobile  float-right ">&#9776;</span>
+      <ul class="navigation-list">
         
-        <a class="path" href="/pages/about/">About</a>
+          
+            <li class="navigation-item   align-left  ">
+              <a class="navigation-link" href="https://suess.wtf/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item   align-left  ">
+              <a class="navigation-link" href="https://suess.wtf/pages/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    </label>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container centered">
+  <div class="about">
+    
+    <h1>Dominik Süß</h1>
+    <h2>Software Engineer</h2>
+    
+    <ul>
       
-        |
-        <a class="path" href="/pages/pixels/">Pixels</a>
+      <li><a href="https://github.com/theSuess/">GitHub</a></li>
       
-    </div>
-  </div>
-</header>
-
-<div class="container">
-  
-
-
-<main role="main" class="homepage">
-
-  
-<h1 class="site-title mono">
-  <span class="base05">[</span><span class="base0c">suess</span><span class="base05">.</span><span class="base08">w</span><span class="base0B">t</span><span class="base0D">f</span><span class="base05">]</span><span class="base05"># _</span>
-</h1>
-
-  <h1 class="headline">Recent Posts</h1>
-
-  <div class="article-list">
-    
-    
-<article class="list-item" itemscope itemtype="http://schema.org/Blog">
-  <h2 class="headline" itemprop="headline"><a href="/posts/reviving_na/">Reviving an old NetApp FAS2040</a></h2>
-  <div class="meta">
-    
-
-    <svg style="margin-bottom: -3px" class="i-edit" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
-      <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
-    </svg>
-    <span class="key">published on</span>
-    <span class="val"><time itemprop="datePublished" datetime="2018-04-13">April 13, 2018</time></span>
-
-    <svg style="margin-bottom:-3px" class="i-clock" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
-      <circle cx="16" cy="16" r="14" />
-      <path d="M16 8 L16 16 20 20" />
-    </svg>
-    <span class="key">4 minute read</span>
+      <li><a href="https://gitlab.com/theSuess/">GitLab</a></li>
+      
+      <li><a href="https://keybase.io/thesuess">Keybase</a></li>
+      
+    </ul>
     
   </div>
-  <section class="summary">
-    So this week I revived an old netapp FAS2040 system. It was a big mess.
-This was the architecture I was working with
-The two core switches are cisco devices and na1 &amp; na2 are two FAS2040s.
-Getting the licenses Since the FAS2040 is now officially EOL, we must resort to less &ldquo;official&rdquo; ways to get ourselves the cf license. This license is needed in order to enable takeover.  <a href="/posts/reviving_na/">Read More...</a>
+</section>
+
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+     © 2018    ·  Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>. 
   </section>
-</article>
-    
-    
-<article class="list-item" itemscope itemtype="http://schema.org/Blog">
-  <h2 class="headline" itemprop="headline"><a href="/posts/multicast/">Multicast</a></h2>
-  <div class="meta">
-    
-
-    <svg style="margin-bottom: -3px" class="i-edit" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
-      <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
-    </svg>
-    <span class="key">published on</span>
-    <span class="val"><time itemprop="datePublished" datetime="2018-02-21">February 21, 2018</time></span>
-
-    <svg style="margin-bottom:-3px" class="i-clock" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
-      <circle cx="16" cy="16" r="14" />
-      <path d="M16 8 L16 16 20 20" />
-    </svg>
-    <span class="key">6 minute read</span>
-    
-  </div>
-  <section class="summary">
-    What is Multicast? In an IPv4 network, there are three types of packets:
- Unicast One-to-One host communication. Broadcast A broadcast message is sent from one hoste to all hosts in the current subnet. Routers will, by definition, not forward broadcast messages Multicast Here is where things get interesting. Multicast traffic is sent from one host to a specific group of receivers. (Cheap) Switches will forward multicast on all ports.  <a href="/posts/multicast/">Read More...</a>
-  </section>
-</article>
-    
-  </div>
-
-  
-
-  <h1 class="headline">Categories</h1>
-
-  <section class="categories">
-    
-    <h2 class="category">
-      <a href="https://suess.wtf/categories/matura">Matura</a>
-      <small>(1)</small>
-    </h2>
-    
-    <h2 class="category">
-      <a href="https://suess.wtf/categories/networks">Networks</a>
-      <small>(2)</small>
-    </h2>
-    
-  </section>
-
-  
-
-  
-
-</main>
-
-</div>
-
-<footer>
-  <div class="container">
-    <span class="copyright">&copy; 2018  suess.wtf - <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
-  </div>
 </footer>
-</body>
+
+    </main>
+
+    
+
+  </body>
+
 </html>
