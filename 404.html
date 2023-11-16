@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script type="text/javascript">
-      var l = window.location;
-      l.replace(
-          'https://grafana.github.io' + l.pathname. l.hash
+      window.location.replace(
+          'https://grafana.github.io' + window.location.pathname + window.location.hash
       );
     </script>
   </head>
